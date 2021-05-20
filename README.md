@@ -1,2 +1,2 @@
-## Walmart Sales Datapipeline - Final-Capstone project
+## Walmart-Sales datapipeline - Final-Capstone project
 
