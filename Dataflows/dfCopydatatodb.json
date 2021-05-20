@@ -1,0 +1,41 @@
+{
+    "name": "dfCopydatatodb",
+    "properties": {
+        "type": "MappingDataFlow",
+        "typeProperties": {
+            "sources": [
+                {
+                    "dataset": {
+                        "referenceName": "dsCSVFiles",
+                        "type": "DatasetReference"
+                    },
+                    "name": "sourceCsvFiles"
+                }
+            ],
+            "sinks": [
+                {
+                    "dataset": {
+                        "referenceName": "dsPostgresDB",
+                        "type": "DatasetReference"
+                    },
+                    "name": "dbSinkPostgres"
+                }
+            ],
+            "transformations": [
+                {
+                    "name": "FixColumnNames"
+                },
+                {
+                    "name": "MD5Hash"
+                },
+                {
+                    "name": "AddSurrogateKey"
+                },
+                {
+                    "name": "FixSurrogateKey"
+                }
+            ],
+            "script": "parameters{\n\tenvironment as string,\n\tmaxSurrogateKey as integer (2)\n}\nsource(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string,\n\t\tColumn_8 as string,\n\t\tColumn_9 as string,\n\t\tColumn_10 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\trowUrlColumn: 'sourceFile') ~> sourceCsvFiles\nsourceCsvFiles select(mapColumn(\n\t\tInvoiceNo = Column_1,\n\t\tStockCode = Column_2,\n\t\tProdDesc = Column_3,\n\t\tQuantity = Column_4,\n\t\tInvoiceDate = Column_5,\n\t\tAmount = Column_6,\n\t\tCustomerID = Column_7,\n\t\tCountry = Column_8,\n\t\tQuarter = Column_9,\n\t\tInvoiceType = Column_10,\n\t\tsourceFile\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FixColumnNames\nFixColumnNames derive(md5Hash = md5(iif(isNull(InvoiceNo),'',toString(InvoiceNo))+\r\n    iif(isNull(StockCode),'',toString(StockCode)) + \r\n    iif(isNull(ProdDesc),'',toString(ProdDesc)) + \r\n    iif(isNull(Quantity),'',toString(Quantity)) + \r\n    iif(isNull(InvoiceDate),'',toString(InvoiceDate)) + \r\n    iif(isNull(Amount),'',toString(Amount)) + \r\n    iif(isNull(CustomerID),'',toString(CustomerID)) + \r\n    iif(isNull(Country),'',toString(Country)) + \r\n    iif(isNull(Quarter),'',toString(Quarter)) + \r\n    iif(isNull(InvoiceType),'',toString(InvoiceType)) )) ~> MD5Hash\nMD5Hash keyGenerate(output(recordKey as long),\n\tstartAt: 1L) ~> AddSurrogateKey\nAddSurrogateKey derive(recordKey = $maxSurrogateKey + recordKey) ~> FixSurrogateKey\nFixSurrogateKey sink(input(\n\t\trecordkey as integer,\n\t\tinvoiceno as string,\n\t\tstockcode as string,\n\t\tproddesc as string,\n\t\tquantity as integer,\n\t\tinvoicedate as string,\n\t\tamount as decimal(0,0),\n\t\tcustomerid as string,\n\t\tcountry as string,\n\t\tquarter as string,\n\t\tinvoicetype as string,\n\t\tmd5sum as string,\n\t\tsourcefile as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tmapColumn(\n\t\tinvoiceno = InvoiceNo,\n\t\tstockcode = StockCode,\n\t\tproddesc = ProdDesc,\n\t\tquantity = Quantity,\n\t\tinvoicedate = InvoiceDate,\n\t\tamount = Amount,\n\t\tcustomerid = CustomerID,\n\t\tcountry = Country,\n\t\tquarter = Quarter,\n\t\tinvoicetype = InvoiceType,\n\t\tsourcefile = sourceFile,\n\t\tmd5sum = md5Hash,\n\t\trecordkey = recordKey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> dbSinkPostgres"
+        }
+    }
+}

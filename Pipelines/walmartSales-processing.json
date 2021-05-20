@@ -1,0 +1,211 @@
+{
+    "name": "walmartSales-dataprocessing",
+    "properties": {
+        "activities": [
+            {
+                "name": "processSalesData-notebook",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": {
+                        "value": "@pipeline().globalParameters.notebook_path",
+                        "type": "Expression"
+                    },
+                    "baseParameters": {
+                        "blob_key": {
+                            "value": "@pipeline().globalParameters.blob_key",
+                            "type": "Expression"
+                        },
+                        "container": {
+                            "value": "@pipeline().globalParameters.blob_container",
+                            "type": "Expression"
+                        },
+                        "storage_acct": {
+                            "value": "@pipeline().globalParameters.storage_acct",
+                            "type": "Expression"
+                        },
+                        "input_path": {
+                            "value": "@pipeline().globalParameters.input_path",
+                            "type": "Expression"
+                        },
+                        "output_path": {
+                            "value": "@pipeline().globalParameters.output_path",
+                            "type": "Expression"
+                        }
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "AzureDatabricks1",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "load_data_to_db",
+                "type": "ExecuteDataFlow",
+                "dependsOn": [
+                    {
+                        "activity": "getmaxSurrogateKeyfromDB",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "dataflow": {
+                        "referenceName": "dfCopydatatodb",
+                        "type": "DataFlowReference",
+                        "parameters": {
+                            "environment": {
+                                "value": "'@{pipeline().globalParameters.environment}'",
+                                "type": "Expression"
+                            },
+                            "maxSurrogateKey": {
+                                "value": "@activity('getmaxSurrogateKeyfromDB').output",
+                                "type": "Expression"
+                            }
+                        },
+                        "datasetParameters": {
+                            "sourceCsvFiles": {
+                                "dsEnvironment": {
+                                    "value": "@pipeline().globalParameters.environment",
+                                    "type": "Expression"
+                                }
+                            }
+                        }
+                    },
+                    "compute": {
+                        "coreCount": 8,
+                        "computeType": "General"
+                    },
+                    "traceLevel": "Fine"
+                }
+            },
+            {
+                "name": "getmaxSurrogateKeyfromDB",
+                "type": "Lookup",
+                "dependsOn": [
+                    {
+                        "activity": "processSalesData-notebook",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzurePostgreSqlSource",
+                        "query": "select coalesce(max(recordkey),0) from walmart_sales_data"
+                    },
+                    "dataset": {
+                        "referenceName": "dsPostgresDB",
+                        "type": "DatasetReference"
+                    }
+                }
+            },
+            {
+                "name": "getmaxSurrogateKeyfromDBOthers",
+                "type": "Lookup",
+                "dependsOn": [
+                    {
+                        "activity": "processSalesData-notebook",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzurePostgreSqlSource",
+                        "query": "select coalesce(max(recordkey),0) from walmart_sales_others_data"
+                    },
+                    "dataset": {
+                        "referenceName": "dsPostgresDBOthers",
+                        "type": "DatasetReference"
+                    }
+                }
+            },
+            {
+                "name": "load_data_to_db_others",
+                "type": "ExecuteDataFlow",
+                "dependsOn": [
+                    {
+                        "activity": "getmaxSurrogateKeyfromDBOthers",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "7.00:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "dataflow": {
+                        "referenceName": "dfCopydatatodbOtherCountries",
+                        "type": "DataFlowReference",
+                        "parameters": {
+                            "environment": {
+                                "value": "'@{pipeline().globalParameters.environment}'",
+                                "type": "Expression"
+                            },
+                            "maxSurrogateKey": {
+                                "value": "@activity('getmaxSurrogateKeyfromDBOthers').output",
+                                "type": "Expression"
+                            }
+                        },
+                        "datasetParameters": {
+                            "sourceCsvFiles": {
+                                "dsEnvironment": {
+                                    "value": "@pipeline().globalParameters.environment",
+                                    "type": "Expression"
+                                }
+                            }
+                        }
+                    },
+                    "compute": {
+                        "coreCount": 8,
+                        "computeType": "General"
+                    },
+                    "traceLevel": "Fine"
+                }
+            }
+        ],
+        "annotations": []
+    }
+}

@@ -1,0 +1,6 @@
+For start trigger
+-armTemplate "$(System.DefaultWorkingDirectory)/_bsathyamur_WalmartSales-DataFactory/adfWalmartSales-dev/ARMTemplateForFactory.json" -ResourceGroupName "walmartSalesRG" -DataFactoryName "adfWalmartSales-qa"  -predeployment $true -deleteDeployment $true
+
+
+For stop trigger
+-armTemplate "$(System.DefaultWorkingDirectory)/_bsathyamur_WalmartSales-DataFactory/adfWalmartSales-dev/ARMTemplateForFactory.json" -ResourceGroupName "walmartSalesRG" -DataFactoryName "adfWalmartSales-qa"  -predeployment $true -deleteDeployment $false

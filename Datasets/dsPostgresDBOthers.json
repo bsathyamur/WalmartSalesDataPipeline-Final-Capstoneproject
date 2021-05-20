@@ -1,0 +1,95 @@
+{
+    "name": "dsPostgresDBOthers",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "AzurePostgreSql1",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzurePostgreSqlTable",
+        "schema": [
+            {
+                "name": "recordkey",
+                "type": "integer",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "invoiceno",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "stockcode",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "proddesc",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "quantity",
+                "type": "integer",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "invoicedate",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "amount",
+                "type": "numeric",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "customerid",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "country",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "quarter",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "invoicetype",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "md5sum",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            },
+            {
+                "name": "sourcefile",
+                "type": "character varying",
+                "precision": 0,
+                "scale": 0
+            }
+        ],
+        "typeProperties": {
+            "schema": "public",
+            "table": "walmart_sales_others_data"
+        }
+    }
+}
