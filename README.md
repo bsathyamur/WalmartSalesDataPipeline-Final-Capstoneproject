@@ -21,7 +21,7 @@ Below is the snapshot of the data
 
 #### 3. DESCRIPTION OF EACH STEP OF THE PIPELINE
 
-1. Acquisition and Cleansing
+**1. Acquisition and Cleansing**
 Data acquistion and cleansing is performed in the azure notebooks. The notebook will process the files uploaded to the input folder in the blob container and perform the following cleansing steps:
 
 * Replace null customer ID field with the value as "Guest"
@@ -29,7 +29,11 @@ Data acquistion and cleansing is performed in the azure notebooks. The notebook 
 * Include a new field for identifying the quarter of the year based on the invoice date
 * Include a new field for identifying the transaction type as either Purchase or Return based on the quantity. A positive quantity is recorded as Purchase &nbsp;&nbsp;&nbsp; whereas a negative quantity is recorded as Return.
 
-3. Transformation
+After processing the output files are saved to an output folder in the blob container. Before saving the output files are split based on the countries (United Kingdom and Other Countries)
+
+**2. Transformation**
+
+A
 
 #### 2. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
 ![img2](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/walmartSales-MonitorDashboard.png)
