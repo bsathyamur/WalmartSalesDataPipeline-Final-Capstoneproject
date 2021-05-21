@@ -45,5 +45,9 @@ Following the transformation of the data in the data flow, finally the data is l
 
 ![img3](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/er.png)
 
-### D. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
+### E. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
 ![img2](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/walmartSales-MonitorDashboard.png)
+
+### F. STEPS FOLLOWED IN THE CAPSTONE PROJECT
+
+![img1](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/process.png)
