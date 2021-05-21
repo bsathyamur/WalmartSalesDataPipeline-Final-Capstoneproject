@@ -41,5 +41,9 @@ Following the transformation of the data in the data flow, finally the data is l
 * walmart_sales_data
 * walmart_sales_others_data.
 
+### D. ER DIAGRAM (DATA MODEL)
+
+![img3](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/er.png)
+
 ### D. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
 ![img2](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/walmartSales-MonitorDashboard.png)
