@@ -27,7 +27,7 @@ Data acquistion and cleansing is performed in the azure notebooks. The notebook 
 * Replace null customer ID field with the value as "Guest"
 * Replace null description field with the value as "Unlisted"
 * Include a new field for identifying the quarter of the year based on the invoice date
-* Include a new field for identifying the transaction type as either Purchase or Return based on the quantity. A positive quantity is recorded as Purchase &nbsp;&nbsp;&nbsp; whereas a negative quantity is recorded as Return.
+* Include a new field for identifying the transaction type as either Purchase or Return based on the quantity. A positive quantity is recorded as Purchase else as Return.
 
 After processing the output files are saved to an output folder in the blob container. Before saving the output files are split based on the countries (United Kingdom and Other Countries)
 
