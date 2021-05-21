@@ -26,14 +26,20 @@ Data acquistion and cleansing is performed in the azure notebooks. The notebook 
 
 * Replace null customer ID field with the value as "Guest"
 * Replace null description field with the value as "Unlisted"
-* Include a new field for identifying the quarter of the year based on the invoice date
-* Include a new field for identifying the transaction type as either Purchase or Return based on the quantity. A positive quantity is recorded as Purchase else as Return.
+* Include a new field for identifying the quarter (QTR1,QTR2,QTR3 & QTR4)of the year based on the invoice date
+* Include a new field for identifying the transaction type as either "Purchase" or "Return" based on the quantity. A positive quantity is recorded as Purchase or else as Return.
 
-After processing the output files are saved to an output folder in the blob container. Before saving the output files are split based on the countries (United Kingdom and Other Countries)
+After processing, the output is saved as csv files to an output folder in the blob container. Before saving the output files, it's split based on the countries (United Kingdom and Other Countries)
 
 **2. Transformation**
 
-A
+Following the above process for data cleansing, the output files for UK and other countries are processed in seperate data flows. The data flow will generate a unique record key based on the maximum value available in the database, add MD5hash sum column and also add souceLineage field to identify the file from which the record was loaded. 
+
+**3. Loading to the database
+
+Following the transformation of the data in the data flow, finally the data is loaded to the postgres tables 
+* walmart_sales_data
+* walmart_sales_others_data.
 
 #### 2. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
 ![img2](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/walmartSales-MonitorDashboard.png)
