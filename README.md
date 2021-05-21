@@ -35,7 +35,7 @@ After processing, the output is saved as csv files to an output folder in the bl
 
 Following the above process for data cleansing, the output files for UK and other countries are processed in seperate data flows. The data flow will generate a unique record key based on the maximum value available in the database, add MD5hash sum column and also add souceLineage field to identify the file from which the record was loaded. 
 
-**3. Loading to the database
+**3. Loading to the database**
 
 Following the transformation of the data in the data flow, finally the data is loaded to the postgres tables 
 * walmart_sales_data
