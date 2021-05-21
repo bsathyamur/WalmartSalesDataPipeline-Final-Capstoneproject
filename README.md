@@ -1,6 +1,6 @@
 ## WALMART-SALES DATAPIPELINE - FINAL CAPSTONE PROJECT SUBMISSION
 
-#### 1. DATASET CHARACTERISTICS
+### A. DATASET CHARACTERISTICS
 
 The input file dataset for walmart sales consists of the following data elements:
 1. Invoice	- Numeric field - identify the Invoice number for a sales or purchase
@@ -16,10 +16,10 @@ Below is the snapshot of the data
 
 ![img1](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/dataset-snapshot.png)
 
-#### 2. DATA FLOW BETWEEN AZURE COMPONENTS
+### B. DATA FLOW BETWEEN AZURE COMPONENTS
 ![img1](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/architecture.png)
 
-#### 3. DESCRIPTION OF EACH STEP OF THE PIPELINE
+### C. DESCRIPTION OF EACH STEP OF THE PIPELINE
 
 **1. Acquisition and Cleansing**
 Data acquistion and cleansing is performed in the azure notebooks. The notebook will process the files uploaded to the input folder in the blob container and perform the following cleansing steps:
@@ -41,5 +41,5 @@ Following the transformation of the data in the data flow, finally the data is l
 * walmart_sales_data
 * walmart_sales_others_data.
 
-#### 2. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
+### D. AZURE DATA MONITOR DASHBOARD FOR THE PIPELINE
 ![img2](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/walmartSales-MonitorDashboard.png)
