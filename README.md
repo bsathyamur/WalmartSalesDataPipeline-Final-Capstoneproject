@@ -50,4 +50,4 @@ Following the transformation of the data in the data flow, finally the data is l
 
 ### F. STEPS FOLLOWED IN THE CAPSTONE PROJECT
 
-![img1](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/process.png)
+![img1](https://github.com/bsathyamur/WalmartSalesDataPipeline-Final-Capstoneproject/blob/main/processfollowed.png)
